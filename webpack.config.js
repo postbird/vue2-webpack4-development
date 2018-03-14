@@ -6,9 +6,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const config = {
     entry:'./src/main.js',
     output:{
-        path:path.resolve(__dirname,'dist'), 
+        path:path.resolve(__dirname,'./dist'), 
         filename:'bundle.js',
-        publicPath:""
     },
     resolve:{
         extensions:[".js",".json",".jsx",".css",'.vue']
@@ -27,15 +26,16 @@ const config = {
                 }
             },
             {test:/\.vue$/,use:'vue-loader'},
-            {test:/\.css$/,use:['style-loader','css-loader']},
+            {test:/\.css$/,use:['vue-style-loader','style-loader','css-loader']},
             {test:/\.less$/,use:['style-loader','css-loader','less-loader']},
             {test:/\.scss$/,use:['style-loader','css-loader','sass-loader']},
             {
-                test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-                loader: 'url-loader',
-                options: {
-                    limit: 10000,
-                    name:'assets/images/[name].[hash:7].[ext]'
+                test: /\.(png|jpg|gif|svg)$/,
+                use:{
+                    loader: 'file-loader',
+                    options: {
+                      name: 'assets/images/[name].[ext]?[hash]'
+                    }
                 }
             },
         ]
@@ -44,18 +44,15 @@ const config = {
     plugins:[
         new HtmlWebpackPlugin({template:'./src/index.html'}),
         new webpack.HotModuleReplacementPlugin(),
-        new CopyWebpackPlugin([
-            {
-                from:'./src/assets/',to:'asstes/'
-            }
-        ])
     ],
     devServer:{
+        historyApiFallback: true,
+        noInfo: true,
+        overlay: true,
         port:9000,
-        compress:true,
-        contentBase:path.join(__dirname,'dist'),
         hot:true,
-        inline:true
+        inline:true,
+        open:true
     }
 }
 
