@@ -30,7 +30,7 @@ const config = {
             {test:/\.less$/,use:['style-loader','css-loader','less-loader']},
             {test:/\.scss$/,use:['style-loader','css-loader','sass-loader']},
             {
-                test: /\.(png|jpg|gif|svg)$/,
+                test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2|svgz)$/,
                 use:{
                     loader: 'file-loader',
                     options: {
